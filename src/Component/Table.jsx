@@ -46,7 +46,14 @@ export default function Table ({main,header,content1,content2}) {
   const head=header.map((obj,index)=>
     <th key={index} onClick={() => handleSort(obj.key)}>{obj.value}{renderArrow(obj.key)}</th>
   )
-  
+  function handleUpdate(id){
+    setOpen(true);
+    setidUpdate(id)
+  }
+  function handleAdd(id){
+    setOpen(true);
+    setidUpdate(0);
+  }
   return (
     <>
       <div className="d-flex">
@@ -54,7 +61,7 @@ export default function Table ({main,header,content1,content2}) {
               <p style={{fontWeight:"bold",fontSize:"25px"}}>{content1}</p>
               <p>{content2}</p>
             </div>
-            {main=="items"?<button onClick={()=>setOpen(true)} style={{outline:"none"}} className="add-btn">+ إضافة مادة جديدة</button>:""}
+            {main=="items"?<button onClick={handleAdd} style={{outline:"none"}} className="add-btn">+ إضافة مادة جديدة</button>:""}
       </div>
       <div className="table-container">
         <table className="materials-table">
@@ -85,7 +92,7 @@ export default function Table ({main,header,content1,content2}) {
                   <td>{item.sell_price}</td>
                   <td>
                     <div className="d-flex" style={{justifyContent:"space-evenly"}}>
-                      {main=="items"?<FontAwesomeIcon icon={faEdit} color="#2563eb"style={{cursor:"pointer"}} onClick={()=>setidUpdate(item.id)}></FontAwesomeIcon>:
+                      {main=="items"?<FontAwesomeIcon icon={faEdit} color="#2563eb"style={{cursor:"pointer"}} onClick={()=>handleUpdate(item.id)}></FontAwesomeIcon>:
                       <FontAwesomeIcon icon={faEye} color="#2563eb" style={{cursor:"pointer"}}></FontAwesomeIcon>}
                      <FontAwesomeIcon  icon={faTrash} color="red" style={{cursor:"pointer"}} onClick={()=>deleteItem(item.id)}></FontAwesomeIcon>                      
                     </div>
@@ -96,6 +103,7 @@ export default function Table ({main,header,content1,content2}) {
           </tbody>
         </table>
       </div>
+      {open}
       {open&&idUpdate==0&&<Additem></Additem>}
       {open&&idUpdate>0&&<Updateitem id={idUpdate}></Updateitem>}
     </>
