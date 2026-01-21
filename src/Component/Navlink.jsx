@@ -1,9 +1,22 @@
-import {faTasks} from"@fortawesome/free-solid-svg-icons";
-
 export const Nav=[
     {
-        to:"tasks",
-        icon:faTasks,
-        title:"Tasks",
+        to:"items",
+        title:"قائمة المواد",
+    },
+    {
+        to:"innvoices",
+        title:"قائمة الفواتير",
+    },
+    {
+        to:"salesInvoice",
+        title:"فاتورة مبيع جديدة",
+    },
+    {
+        to:"purchaseInvoice",
+        title:"فاتورة شراء جديدة",
+    },
+    {
+        to:"createAccount",
+        title:"انشاء حساب",
     },
 ]
