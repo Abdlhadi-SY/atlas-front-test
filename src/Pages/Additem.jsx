@@ -2,7 +2,7 @@ import { useState } from "react";
 import Itemform from "../Component/Itemform";
 
 export default function Additem(){
-    const items={
+    const item={
             code:"",
             name:"",
             category_id:"",
@@ -12,5 +12,5 @@ export default function Additem(){
             cost_price:0,
             sell_price:0,
         }
-    return(<Itemform header={"اضافة مهمة جديدة"} content={"اضافة"} items={items}></Itemform>);
+    return(<Itemform header={"اضافة مهمة جديدة"} content={"اضافة"} item={item}></Itemform>);
 }

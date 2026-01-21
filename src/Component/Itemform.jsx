@@ -1,38 +1,49 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Modback } from "../Context/ItemContext";
 import "../Css/Modal.css"
-export default function Itemform({header,content,items}){
+import axios from "axios";
+import { baseUrl } from "../Variables";
+import { data } from "react-router-dom";
+import Cookies from "universal-cookie";
+export default function Itemform({header,content,item,end}){
     const {setOpen}=useContext(Modback);
+    const [categories,setCategories]=useState([]);
+    const cookie=new Cookies();
     const [form,setForm]=useState({
-        code : items.code,
-        name : items.name,
-        category_id : items.ccategory_idode,
-        unit : items.unit,
-        quantity_in : items.quantity_in,
-        quantity_low : items.quantity_low,
-        cost_price : items.cost_price,
-        sell_price : items.sell_price,
+        code : item.code,
+        name : item.name,
+        category_id : item.category_id,
+        unit_name : item.unit.name,
+        quantity_in : item.quantity_in,
+        quantity_low : item.quantity_low,
+        cost_price : item.cost_price,
+        sell_price : item.sell_price,
     });
+    
     function handleform(e) {
         setForm({ ...form, [e.target.name]: e.target.value });
     }
-//   async function submit(e) {
-//     e.preventDefault();
-//     setload(true);
-//     try {
-//       await axios.post(`${baseUrl}/api/${end}`, form,{
-//           headers:{
-//                     Authorization:"Bearer " + cookie.get("Bearer")
-//                 },
-//       });
-//       setload(false);
-//       navigate("/dashboard/tasks");
-//     } catch (err) {
-//       console.log(err)
-//       setload(false);
-//       seterr(err.response.data.message);
-//     }
-//   }
+    useEffect(()=>{
+        axios.get(`${baseUrl}/api/v1/categories`)
+        .then((data)=>setCategories(data.data.data))
+        .catch((err)=>console.log(err)
+        )
+    },[])
+    const showCategories=categories.map((category,index)=><option key={index} value={category.id}>{category.name}</option>)
+    async function submit(e) {
+        e.preventDefault();
+        try {
+        await axios.post(`${baseUrl}/api/items`,form,{
+            headers:{
+                        Authorization:"Bearer " + cookie.get("Bearer")
+            },
+        });
+        navigate("/dashboard/items");
+        } catch (err) {
+        console.log(err)
+        seterr(err.response.data.message);
+        }
+    }
 
     return(
         <div className="modal-backdrop">
@@ -42,7 +53,7 @@ export default function Itemform({header,content,items}){
                 </button>
                 <div className="modal-content">
                     <h1>{header}</h1>
-                    <form className="item" >
+                    <form className="item" onSubmit={submit} >
                         <div>    
                             <label>كودالمادة</label>
                             <input
@@ -68,16 +79,14 @@ export default function Itemform({header,content,items}){
                         <div>
                             <label>الفئة</label>
                             <select style={{borderRadius:"12px",padding:"10px"}} value={form.category_id} name="category_id" onChange={handleform}>
-                                <option value={""}>اختر الفئة</option>
-                                <option value={1}>1</option>
-                                <option value={2}>2</option>
-                                <option value={3}>3</option>
+                                <option disabled>اختر الفئة</option>
+                                {showCategories}
                             </select>
                         </div>
                         <div>
                             <label>الوحدة</label>
                             <input
-                                value={form.unit}
+                                value={form.unit_name}
                                 name="unit"
                                 type="text"
                                 required
@@ -126,10 +135,10 @@ export default function Itemform({header,content,items}){
                                 ></input>
                         </div>
                     </form>
-                        <div className="d-flex" style={{marginBlock:"15px"}}>
-                            <button className="add-btn">{content}</button>
-                            <button className="add-btn exit" style={{color:"black"}} onClick={() => setOpen(false)} >الغاء</button>
-                        </div>
+                    <div className="d-flex" style={{marginBlock:"15px"}}>
+                        <button className="add-btn">{content}</button>
+                        <button className="add-btn exit" style={{color:"black"}} onClick={() => setOpen(false)} >الغاء</button>
+                    </div>
                 </div>
             </div>
         </div>

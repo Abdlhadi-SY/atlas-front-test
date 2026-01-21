@@ -10,3 +10,13 @@
 a{
   text-decoration: none;
 }
+
+.error{
+  display: block;
+  padding: 10px;
+  background: #f8d7da;
+  color: #842029;
+  border-radius: 12px;
+  margin-top: 10px;
+  border-radius: 12px;
+}

@@ -28,13 +28,10 @@ export default function Login() {
         cookie.set("Bearer",token,{path:"/"});
         navigate("/dashboard");
         } catch (err) {
-        setload(false);
-        seterr(err);
+            setload(false);
+            seterr(err.response.data.message);
         }
     }
-            
-            
-            
   return (
             <form className="form-box" onSubmit={submit}>
             <h2 className="form-title">تسجيل دخول</h2>
