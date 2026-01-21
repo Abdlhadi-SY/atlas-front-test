@@ -1,17 +1,17 @@
 import { useContext, useState } from "react";
 import { Modback } from "../Context/ItemContext";
 import "../Css/Modal.css"
-export default function Itemform({header,content}){
+export default function Itemform({header,content,items}){
     const {setOpen}=useContext(Modback);
     const [form,setForm]=useState({
-        code:"",
-        name:"",
-        category_id:"",
-        unit:"",
-        quantity_in:0,
-        quantity_low:0,
-        cost_price:0,
-        sell_price:0,
+        code : items.code,
+        name : items.name,
+        category_id : items.ccategory_idode,
+        unit : items.unit,
+        quantity_in : items.quantity_in,
+        quantity_low : items.quantity_low,
+        cost_price : items.cost_price,
+        sell_price : items.sell_price,
     });
     function handleform(e) {
         setForm({ ...form, [e.target.name]: e.target.value });
