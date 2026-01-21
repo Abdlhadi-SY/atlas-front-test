@@ -8,12 +8,8 @@ export const Nav=[
         title:"قائمة الفواتير",
     },
     {
-        to:"salesInvoice",
-        title:"فاتورة مبيع جديدة",
-    },
-    {
-        to:"purchaseInvoice",
-        title:"فاتورة شراء جديدة",
+        to:"newInvoice",
+        title:"فاتورة جديدة",
     },
     {
         to:"createAccount",
