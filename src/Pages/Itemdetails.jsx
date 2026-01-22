@@ -1,4 +1,5 @@
 import "../Css/Modal.css";
+
 export default function Itemdetails({details , setshowDetails }) {
   const handlePrint = () => {
     window.print();
@@ -6,8 +7,8 @@ export default function Itemdetails({details , setshowDetails }) {
   console.log(details);
   
   return (
-    <div className="modal-backdrop">
-      <div className="modal-box print-area" style={{ width: "1000px" }}>
+    <div className="modal-backdrop print-area">
+      <div className="modal-box" style={{ width: "1000px" }}>
         {/* HEADER */}
         <div className="d-flex" style={{ justifyContent: "space-between" }}>
           <button className="close-btn" onClick={setshowDetails}>✕</button>
@@ -21,7 +22,7 @@ export default function Itemdetails({details , setshowDetails }) {
         </div>
 
         {/* INFO */}
-        <div className="d-flex" style={{ justifyContent: "space-around" }}>
+        <div className="d-flex infoDetails" style={{ justifyContent: "space-around" }}>
           <div>
             <h4>معلومات العميل</h4>
                 <p> الاسم: </p>

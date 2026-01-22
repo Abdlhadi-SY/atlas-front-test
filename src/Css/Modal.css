@@ -35,7 +35,14 @@
 }
 
 @media print {
-
+  html, body {
+    direction: rtl;
+    margin: 0;
+  }
+  .infoDetails {
+    flex-direction: column;
+    align-items: flex-start;
+  }
   body * {
     visibility: hidden;
   }
