@@ -19,7 +19,7 @@
 .form-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  gap: 30px;
 }
 
 /* الحقل */
@@ -240,5 +240,69 @@
   .summary-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.form-group select {
+  height: 44px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
+
+
+.select-btn,
+.change-btn {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.customer-selector {
+  margin-top: 20px;
+  background: #fff;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.customer-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.customer-table th,
+.customer-table td {
+  padding: 10px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: center;
+}
+
+.customer-table tr:hover {
+  background: #f1f5f9;
+  cursor: pointer;
+}
+
+.selected-customer p {
+  margin: 6px 0;
+}
+
+.error {
+  color: #dc2626;
+  font-size: 12px;
+}
+
+.add-row-btn {
+  margin-top: 12px;
+  margin-right: 12px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  background: #2563eb;
+  color: #fff;
+  cursor: pointer;
 }
 
