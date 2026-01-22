@@ -126,7 +126,6 @@ body {
 /* Content area */
 .content {
   flex: 1;
-  padding: 20px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;

@@ -11,7 +11,7 @@ export default function Items(){
             key:"name",
             value:"اسم المادة"},
         {
-            key:"category.name",
+            key:"category",
             value:"الفئة"
         },
         {
@@ -19,7 +19,7 @@ export default function Items(){
             value:"الكمية"
         },
         {
-            key:"unit.name",
+            key:"unit",
             value:"الوحدة"
         },
         {

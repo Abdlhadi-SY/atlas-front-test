@@ -3,22 +3,26 @@ import { Modback } from "../Context/ItemContext";
 import "../Css/Modal.css"
 import axios from "axios";
 import { baseUrl } from "../Variables";
-import { data } from "react-router-dom";
 import Cookies from "universal-cookie";
-export default function Itemform({header,content,item,end}){
+import { Navigate, useNavigate } from "react-router-dom";
+import { ChangeItems } from "../Context/ChangeItems";
+export default function Itemform({header,content,item}){    
     const {setOpen}=useContext(Modback);
+    const [error,setError]=useState("");
     const [categories,setCategories]=useState([]);
     const cookie=new Cookies();
+    const {setChange}=useContext(ChangeItems)
     const [form,setForm]=useState({
         code : item.code,
         name : item.name,
         category_id : item.category_id,
-        unit_name : item.unit.name,
+        unit_name : item.unit.name??"",
         quantity_in : item.quantity_in,
         quantity_low : item.quantity_low,
         cost_price : item.cost_price,
         sell_price : item.sell_price,
     });
+    const navigate=useNavigate();
     
     function handleform(e) {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -32,16 +36,27 @@ export default function Itemform({header,content,item,end}){
     const showCategories=categories.map((category,index)=><option key={index} value={category.id}>{category.name}</option>)
     async function submit(e) {
         e.preventDefault();
-        try {
-        await axios.post(`${baseUrl}/api/items`,form,{
-            headers:{
+        try{
+        if(item.id){
+            await axios.put(`${baseUrl}/api/v1/items/${item.id}`,form,{
+                headers:{
                         Authorization:"Bearer " + cookie.get("Bearer")
-            },
-        });
+                },
+            });
+        }
+        else{
+            await axios.post(`${baseUrl}/api/v1/items`,form,{
+                headers:{
+                        Authorization:"Bearer " + cookie.get("Bearer")
+                },
+            });
+        }
+        setOpen(false);
+        setChange((pre)=>!pre)
         navigate("/dashboard/items");
         } catch (err) {
-        console.log(err)
-        seterr(err.response.data.message);
+            console.log(err);
+            setError(err.response.data.message)
         }
     }
 
@@ -53,7 +68,7 @@ export default function Itemform({header,content,item,end}){
                 </button>
                 <div className="modal-content">
                     <h1>{header}</h1>
-                    <form className="item" onSubmit={submit} >
+                    <form id="myForm" className="item" onSubmit={submit} >
                         <div>    
                             <label>كودالمادة</label>
                             <input
@@ -79,7 +94,7 @@ export default function Itemform({header,content,item,end}){
                         <div>
                             <label>الفئة</label>
                             <select style={{borderRadius:"12px",padding:"10px"}} value={form.category_id} name="category_id" onChange={handleform}>
-                                <option disabled>اختر الفئة</option>
+                                <option value={""} disabled>اختر الفئة</option>
                                 {showCategories}
                             </select>
                         </div>
@@ -87,7 +102,7 @@ export default function Itemform({header,content,item,end}){
                             <label>الوحدة</label>
                             <input
                                 value={form.unit_name}
-                                name="unit"
+                                name="unit_name"
                                 type="text"
                                 required
                                 placeholder="ادخل اسم الوحدة"
@@ -136,9 +151,10 @@ export default function Itemform({header,content,item,end}){
                         </div>
                     </form>
                     <div className="d-flex" style={{marginBlock:"15px"}}>
-                        <button className="add-btn">{content}</button>
+                        <button type="submit" form="myForm" className="add-btn">{content}</button>
                         <button className="add-btn exit" style={{color:"black"}} onClick={() => setOpen(false)} >الغاء</button>
                     </div>
+                    {error&&<p className="error">{error}</p>}
                 </div>
             </div>
         </div>

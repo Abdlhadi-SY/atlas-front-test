@@ -15,23 +15,11 @@ export default function Invoices(){
             key:"account_name",
             value:"اسم العميل"
         },
-        {
-            key:"unit",
-            value:"عدد الاصناف"
-        },
-        {
-            key:"cost_price",
-            value:"المجموع"
-        },
-        {
-            key:"sell_price",
-            value:"الحالة"
-        },
     ];
     return(
         <>
         <Topbar header={"قائمة الفواتير"} />
-        <Table main={"innvoices"} content1={"إجمالي الفواتير:"} content2={"المجموع الكلي:"} header={header}></Table>
+        <Table main={"invoices"} content1={"إجمالي الفواتير:"} content2={"المجموع الكلي:"} header={header}></Table>
         </>
     );
 }

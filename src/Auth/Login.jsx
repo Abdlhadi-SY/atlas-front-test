@@ -22,7 +22,6 @@ export default function Login() {
         setload(true);
         try {
         const res=await axios.post(`${baseUrl}/api/v1/login`, form);
-        console.log(res);
         setload(false);
         const token=res.data.token;
         cookie.set("Bearer",token,{path:"/"});

@@ -8,6 +8,8 @@ import Login from './Auth/Login'
 import RequireBack from './Auth/RequireBack'
 import Sidebar from './Component/Sidebar'
 import NewInvoice from './Pages/NewInvoice'
+import Additem from './Pages/Additem'
+import CreateAccount from './Auth/CreateAccount'
 
 export default function App() {
   return (
@@ -19,8 +21,9 @@ export default function App() {
           <Route path="/dashboard" element={<Dashboard/>}>
             <Route index element={<Navigate to="items" replace />} />
             <Route path='items' element={<Items/>}></Route>
-            <Route path='innvoices' element={<Invoices/>}></Route>
-          <Route path='newInvoice' element={<NewInvoice/>}></Route>
+            <Route path='createAccount' element={<CreateAccount/>}></Route>
+            <Route path='invoices' element={<Invoices/>}></Route>
+            <Route path='newInvoice' element={<NewInvoice/>}></Route>
           </Route>
         </Route>
         <Route path="*" element={<Navigate to="/dashboard" replace />} />

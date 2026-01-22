@@ -16,6 +16,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  padding: 20px;
 }
 
 .close-btn {
@@ -31,4 +32,28 @@
 .modal-content {
   padding: 20px;
   overflow-y: auto;
+}
+
+@media print {
+
+  body * {
+    visibility: hidden;
+  }
+
+  .print-area,
+  .print-area * {
+    visibility: visible;
+  }
+
+  .print-area {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  .close-btn,
+  .add-btn {
+    display: none !important;
+  }
 }

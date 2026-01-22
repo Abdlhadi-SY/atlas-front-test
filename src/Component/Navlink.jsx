@@ -4,7 +4,7 @@ export const Nav=[
         title:"قائمة المواد",
     },
     {
-        to:"innvoices",
+        to:"invoices",
         title:"قائمة الفواتير",
     },
     {
