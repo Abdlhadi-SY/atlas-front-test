@@ -8,9 +8,12 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { ChangeItems } from "../Context/ChangeItems";
 import { toast } from 'sonner';
 import { createItemApi, updateItemApi } from "../API/ItemsApi";
+import { itemSchema } from "../Validation/ItemSchema";
 export default function Itemform({header,content,item}){   
     const {setOpen}=useContext(Modback);
     const [error,setError]=useState("");
+    const [errors, setErrors] = useState({});
+
     const [categories,setCategories]=useState([]);
     const cookie=new Cookies();
     const {setChange}=useContext(ChangeItems)
@@ -38,6 +41,21 @@ export default function Itemform({header,content,item}){
     const showCategories=categories.map((category,index)=><option key={index} value={category.id}>{category.name}</option>)
     async function submit(e) {
         e.preventDefault();
+        const parsedData = {
+            ...form,
+            quantity_in: Number(form.quantity_in),
+            quantity_low: Number(form.quantity_low),
+            sell_price: Number(form.sell_price),
+            cost_price: Number(form.cost_price),
+        };
+        const result = itemSchema.safeParse(parsedData);
+        if (!result.success) {
+            console.log(result.error.format());
+            setErrors(result.error.format());
+            return; 
+        }
+
+
         try{
         if(item.id){
             await updateItemApi(item.id,form);
@@ -67,11 +85,12 @@ export default function Itemform({header,content,item}){
         }
         
         setOpen(false);
+        setErrors({});
         setChange((pre)=>!pre)
         navigate("/dashboard/items");
         } catch (err) {
             console.log(err);
-            // setError(err.response.data.message)
+            setError(err.response.data.message)
         }
     }
 
@@ -90,10 +109,14 @@ export default function Itemform({header,content,item}){
                                 name="code"
                                 value={form.code}
                                 type="text"
-                                required
                                 placeholder="ادخل كود المادة"
                                 onChange={handleform}
                                 ></input>
+                                {errors.code?._errors[0] && (
+                                <small style={{ color: "red" }}>
+                                    {errors.code._errors[0]}
+                                </small>
+                                )}
                         </div>
                         <div>
                             <label>اسم المادة</label>
@@ -101,10 +124,14 @@ export default function Itemform({header,content,item}){
                                 value={form.name}
                                 name="name"
                                 type="text"
-                                required
                                 placeholder="ادخل اسم المادة"
                                 onChange={handleform}
                                 ></input>
+                                 {errors.name?._errors[0] && (
+                                <small style={{ color: "red" }}>
+                                    {errors.name._errors[0]}
+                                </small>
+                                )}
                         </div>
                         <div>
                             <label>الفئة</label>
@@ -112,6 +139,12 @@ export default function Itemform({header,content,item}){
                                 <option value={""} disabled>اختر الفئة</option>
                                 {showCategories}
                             </select>
+                            {errors.category_id?._errors[0] && (
+                                <small style={{ color: "red" }}>
+                                    {errors.category_id._errors[0]}
+                                </small>
+                            )}
+                            
                         </div>
                         <div>
                             <label>الوحدة</label>
@@ -119,10 +152,14 @@ export default function Itemform({header,content,item}){
                                 value={form.unit_name}
                                 name="unit_name"
                                 type="text"
-                                required
                                 placeholder="ادخل اسم الوحدة"
                                 onChange={handleform}
                                 ></input>
+                                 {errors.unit_name?._errors[0] && (
+                                <small style={{ color: "red" }}>
+                                    {errors.unit_name._errors[0]}
+                                </small>
+                                )}
                         </div>
                         <div>
                             <label>الكمية</label>
@@ -130,9 +167,13 @@ export default function Itemform({header,content,item}){
                                 value={form.quantity_in}
                                 name="quantity_in"
                                 type="number"
-                                required
                                 onChange={handleform}
                                 ></input>
+                                 {errors.quantity_in?._errors[0] && (
+                                <small style={{ color: "red" }}>
+                                    {errors.quantity_in._errors[0]}
+                                </small>
+                                )}
                         </div>
                         <div>
                             <label>الحد الادنى للكمية</label>
@@ -140,9 +181,13 @@ export default function Itemform({header,content,item}){
                                 value={form.quantity_low}
                                 name="quantity_low"
                                 type="number"
-                                required
                                 onChange={handleform}
                                 ></input>
+                                 {errors.quantity_low?._errors[0] && (
+                                <small style={{ color: "red" }}>
+                                    {errors.quantity_low._errors[0]}
+                                </small>
+                                )}
                         </div>
                         <div>
                             <label>سعر المبيع</label>
@@ -150,9 +195,13 @@ export default function Itemform({header,content,item}){
                                 value={form.sell_price}
                                 name="sell_price"
                                 type="number"
-                                required
                                 onChange={handleform}
                                 ></input>
+                                 {errors.sell_price?._errors[0] && (
+                                <small style={{ color: "red" }}>
+                                    {errors.sell_price._errors[0]}
+                                </small>
+                                )}
                         </div>
                         <div>
                             <label>سعر الشراء</label>
@@ -160,9 +209,13 @@ export default function Itemform({header,content,item}){
                                 value={form.cost_price}
                                 name="cost_price"
                                 type="number"
-                                required
                                 onChange={handleform}
                                 ></input>
+                                 {errors.cost_price?._errors[0] && (
+                                <small style={{ color: "red" }}>
+                                    {errors.cost_price._errors[0]}
+                                </small>
+                                )}
                         </div>
                     </form>
                     <div className="d-flex" style={{marginBlock:"15px"}}>
