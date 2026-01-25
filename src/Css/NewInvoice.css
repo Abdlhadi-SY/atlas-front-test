@@ -86,7 +86,7 @@
 
 /* Table */
 .table-wrapper {
-  max-height: 420px;
+  max-height: 400px;
   overflow-y: auto;
   border: 1px solid #e5e7eb;
   border-radius: 10px;
@@ -213,6 +213,7 @@
 /* Form */
 .form-group {
   display: flex;
+  margin: 12px;
   flex-direction: column;
   margin-bottom: 16px;
 }

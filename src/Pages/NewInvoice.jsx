@@ -3,10 +3,10 @@ import Topbar from "../Component/Topbar";
 import "../Css/NewInvoice.css";
 import { getAccountsApi } from "../API/accountsApi";
 import { getItemByCodeApi } from "../API/ItemsApi";
+import { createInvoiceApi } from "../API/InvoicesApi";
 import { useState } from "react";
 
 export default function NewInvoice() {
-  const rows = Array.from({ length: 10 });
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [showCustomerSelector, setShowCustomerSelector] = useState(false);
   const [type, setType] = useState("");
@@ -17,6 +17,7 @@ export default function NewInvoice() {
   const [customers, setCustomers] = useState([]);
   const [items, setItems] = useState([
     {
+      id: null,
       code: "",
       name: "",
       qty: 1,
@@ -50,11 +51,10 @@ export default function NewInvoice() {
   const searchItem = async (index, query) => {
     if (!query) return;
 
-    console.log("Searching for item with query:", query, index);
     try {
       const data = await getItemByCodeApi(query);
 
-      if (!data) {
+      if (!data || data.data == "Item not found." || !data.data) {
         setItems((prev) => {
           const copy = [...prev];
           copy[index].error = "المادة غير موجودة";
@@ -67,6 +67,7 @@ export default function NewInvoice() {
         const copy = [...prev];
         copy[index] = {
           ...copy[index],
+          id: data.data.id,
           code: data.data.code,
           name: data.data.name,
           unitPrice: data.data.cost_price,
@@ -86,7 +87,7 @@ export default function NewInvoice() {
   useState(async () => {
     const data = await getAccountsApi();
     setCustomers(data.data);
-  }, customers);
+  });
 
   const handleItemChange = (index, field, value) => {
     setItems((prev) => {
@@ -111,13 +112,14 @@ export default function NewInvoice() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const payload = {
-      selectedCustomer: selectedCustomer ? selectedCustomer.id : null,
+      account_id: selectedCustomer ? selectedCustomer.id : null,
       type: type,
-      generalNotes,
+      note: generalNotes,
       items: items.map((it) => ({
+        item_id: it.id,
         code: it.code,
         name: it.name,
-        qty: Number(it.qty) || 0,
+        quantity: Number(it.qty) || 0,
         unitPrice: Number(it.unitPrice) || 0,
         note: it.note,
       })),
@@ -129,19 +131,30 @@ export default function NewInvoice() {
     console.log("Submitting invoice:", payload);
 
     try {
-      const res = await fetch("/api/invoices", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      if (!res.ok) throw new Error("Network response was not ok");
-      const data = await res.json();
+      const data = await createInvoiceApi(payload);
+      console.log("Invoice created:", data);
       alert("تم حفظ الفاتورة بنجاح");
       // optional: reset form or navigate
     } catch (err) {
       console.error(err);
       alert("حدث خطأ أثناء إرسال الفاتورة");
     }
+
+    
+    // try {
+    //   const res = await fetch("/api/invoices", {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify(payload),
+    //   });
+    //   if (!res.ok) throw new Error("Network response was not ok");
+    //   const data = await res.json();
+    //   alert("تم حفظ الفاتورة بنجاح");
+    //   // optional: reset form or navigate
+    // } catch (err) {
+    //   console.error(err);
+    //   alert("حدث خطأ أثناء إرسال الفاتورة");
+    // }
   };
 
   return (
@@ -230,6 +243,11 @@ export default function NewInvoice() {
               >
                 تغيير العميل
               </button>
+
+              <div className="form-group">
+                <label>ملاحظات</label>
+                <input type="text" placeholder=" ملاحظات " />
+              </div>
             </div>
           )}
         </div>
@@ -277,14 +295,13 @@ export default function NewInvoice() {
                     <tr key={index}>
                       <td>{index + 1}</td>
                       <td>
-                        
                         <input
                           placeholder="كود المادة"
                           value={it.code}
                           onChange={(e) =>
                             handleItemChange(index, "code", e.target.value)
                           }
-                          onBlur={() => searchItem(index, it.code)}
+                          // onBlur={() => searchItem(index, it.code)}
                           onKeyDown={(e) =>
                             e.key === "Tab" && searchItem(index, it.code)
                           }
@@ -301,10 +318,10 @@ export default function NewInvoice() {
                           onChange={(e) =>
                             handleItemChange(index, "name", e.target.value)
                           }
-                          onBlur={() => searchItem(index, it.name)}
-                          onKeyDown={(e) =>
-                            e.key === "Tab" && searchItem(index, it.name)
-                          }
+                          // onBlur={() => searchItem(index, it.name)}
+                          // onKeyDown={(e) =>
+                          //   e.key === "Tab" && searchItem(index, it.name)
+                          // }
                         />
                       </td>
 
