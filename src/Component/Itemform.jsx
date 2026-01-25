@@ -7,6 +7,7 @@ import Cookies from "universal-cookie";
 import { Navigate, useNavigate } from "react-router-dom";
 import { ChangeItems } from "../Context/ChangeItems";
 import { toast } from 'sonner';
+import { createItemApi, updateItemApi } from "../API/ItemsApi";
 export default function Itemform({header,content,item}){   
     const {setOpen}=useContext(Modback);
     const [error,setError]=useState("");
@@ -39,12 +40,8 @@ export default function Itemform({header,content,item}){
         e.preventDefault();
         try{
         if(item.id){
-            await axios.put(`${baseUrl}/api/v1/items/${item.id}`,form,{
-                headers:{
-                        Authorization:"Bearer " + cookie.get("Bearer")
-                },
-            }).then(()=>{
-                toast.success('تم التعديل بنجاح', {
+            await updateItemApi(item.id,form);
+            toast.success('تم التعديل بنجاح', {
                 duration: 5000,
                  style: {
                     background: 'green', 
@@ -53,16 +50,11 @@ export default function Itemform({header,content,item}){
                     borderRadius: '8px',
                     fontWeight: 'bold',
                 }
-            });
             });
         }
         else{
-            await axios.post(`${baseUrl}/api/v1/items`,form,{
-                headers:{
-                        Authorization:"Bearer " + cookie.get("Bearer")
-                },
-            }).then(()=>{
-                toast.success('تمت الاضافة بنجاح', {
+            await createItemApi(form);
+            toast.success('تمت الاضافة بنجاح', {
                 duration: 5000,
                  style: {
                     background: 'green', 
@@ -71,8 +63,6 @@ export default function Itemform({header,content,item}){
                     borderRadius: '8px',
                     fontWeight: 'bold',
                 }
-            });
-
             });
         }
         

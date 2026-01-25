@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { baseUrl } from "../Variables";
 import "../Css/Form.css"
 import { toast } from "sonner";
+import { createAccountApi } from "../API/accountsApi";
 export default function CreateAccount(){
     const [form, setform] = useState({
             code: "",
@@ -24,21 +25,19 @@ export default function CreateAccount(){
         e.preventDefault();
         setload(true);
         try {
-        const res=await axios.post(`${baseUrl}/api/v1/accounts`, form)
-        .then(()=>{
+            await createAccountApi(form);
             toast.success('تمت اضافة الحساب بنجاح', {
-                duration: 5000,
-                 style: {
-                    background: 'green', 
-                    color: 'white',     
-                    padding: '12px 20px',
-                    borderRadius: '8px',
-                    fontWeight: 'bold',
-                }
-            });
-        });
-        setload(false);
-        navigate("/dashboard/items");
+                    duration: 5000,
+                    style: {
+                        background: 'green', 
+                        color: 'white',     
+                        padding: '12px 20px',
+                        borderRadius: '8px',
+                        fontWeight: 'bold',
+                    }
+                });
+            setload(false);
+            navigate("/dashboard/items");
         } catch (err) {
             setload(false);
             seterr(err.response.data.message);

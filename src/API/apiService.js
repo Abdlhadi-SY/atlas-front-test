@@ -9,15 +9,14 @@ const apiService = axios.create({
   },
 });
 
-// apiService.interceptors.request.use((config) => {
-//   try {
-//     const auth = JSON.parse(localStorage.getItem('auth'));
-//     if (auth && auth.access) {
-//       config.headers['Authorization'] = `Bearer ${auth.access}`;
-//     }
-//   } catch {}
-//   return config;
-// });
+apiService.interceptors.request.use((config) => {
+  const token = new Cookies().get("Bearer");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
 
 // apiService.interceptors.response.use(
 //   response => response,

@@ -12,6 +12,7 @@ import Cookies from "universal-cookie";
 import { ChangeItems } from "../Context/ChangeItems";
 import Itemdetails from "../Pages/Itemdetails";
 import { toast } from "sonner";
+import { deleteItemApi, getItemsApi } from "../API/ItemsApi";
 
 export default function Table ({main,header,content1,content2}) {
     const {open,setOpen}=useContext(Modback);
@@ -25,13 +26,16 @@ export default function Table ({main,header,content1,content2}) {
     const {change,setChange}=useContext(ChangeItems);
     
     useEffect(()=>{
-      axios.get(`${baseUrl}/api/v1/${main}`,{
-        headers:{
-                  Authorization:"Bearer "+  token
-              },
-      })
-      .then((data)=>setItems(data.data.data))
-      .catch((err)=>console.log(err))
+      const fetchItems = async () => {
+      try {
+        const data = await getItemsApi(main); 
+        setItems(data.data);
+      } catch (err) {
+        console.log("Error fetching items:", err);
+      }
+    };
+
+    fetchItems();
     },[change])
 
 
@@ -85,9 +89,7 @@ export default function Table ({main,header,content1,content2}) {
 
     async function confirmDelete() {
       try {
-          await axios.delete(`${baseUrl}/api/v1/${main}/${deleteModal.id}`, {
-              headers: { Authorization: "Bearer " + token }
-          }).then(() => {});
+          await deleteItemApi(deleteModal.id);
           setChange((pre)=>!pre);
           toast.success('تم الحذف بنجاح', {
                 duration: 5000,

@@ -1,7 +1,7 @@
 import apiService from "./apiservice";
 
-export const getItemsApi = async () => {
-  const response = await apiService.get(`/api/v1/items/`);
+export const getItemsApi = async (main) => {
+  const response = await apiService.get(`/api/v1/${main}/`);
   return response.data;
 };
 export const getItemByIdApi = async (id) => {
