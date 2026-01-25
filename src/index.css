@@ -29,3 +29,16 @@ a{
   margin-top: 10px;
   border-radius: 12px;
 }
+
+.toast{
+  position: fixed;
+  bottom: 30px;
+  right: 50px;
+  color: "white";
+  padding: "12px 20px";
+  background-color: green;
+  border-radius: 8;
+  box-shadow: "0 4px 10px rgba(0,0,0,0.2)";
+  z-index: 9999;
+  width: 200px;
+}

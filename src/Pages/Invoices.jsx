@@ -15,6 +15,10 @@ export default function Invoices(){
             key:"account_name",
             value:"اسم العميل"
         },
+        {
+            key:"total",
+            value:"المجموع",
+        },
     ];
     return(
         <>

@@ -1,17 +1,18 @@
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from "axios";
 import Loading from "../Component/Loading";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
 import { baseUrl } from "../Variables";
 import "../Css/Form.css"
+import { toast } from "sonner";
 export default function CreateAccount(){
-  const [form, setform] = useState({
-        code: "",
-        name: "",
-        type: ""
-    });
+    const [form, setform] = useState({
+            code: "",
+            name: "",
+            type: ""
+        });
     const [err,seterr]=useState("");
     const [load,setload]=useState(false);
     const cookie=new Cookies();
@@ -23,7 +24,19 @@ export default function CreateAccount(){
         e.preventDefault();
         setload(true);
         try {
-        const res=await axios.post(`${baseUrl}/api/v1/accounts`, form);
+        const res=await axios.post(`${baseUrl}/api/v1/accounts`, form)
+        .then(()=>{
+            toast.success('تمت اضافة الحساب بنجاح', {
+                duration: 5000,
+                 style: {
+                    background: 'green', 
+                    color: 'white',     
+                    padding: '12px 20px',
+                    borderRadius: '8px',
+                    fontWeight: 'bold',
+                }
+            });
+        });
         setload(false);
         navigate("/dashboard/items");
         } catch (err) {

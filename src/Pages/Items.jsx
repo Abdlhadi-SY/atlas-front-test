@@ -34,7 +34,7 @@ export default function Items(){
     return(
     <>
     <Topbar  header={"قائمة المواد"}/>
-    <Table main={"items"} content1={"اجمالي المواد:"} content2={"المواد المنخفضة:"} header={header}></Table>
+    <Table main={"items"} content1={"اجمالي المواد:"} content2={""} header={header}></Table>
     </>
 );
 }

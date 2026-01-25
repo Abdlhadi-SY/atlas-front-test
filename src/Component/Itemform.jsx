@@ -6,7 +6,8 @@ import { baseUrl } from "../Variables";
 import Cookies from "universal-cookie";
 import { Navigate, useNavigate } from "react-router-dom";
 import { ChangeItems } from "../Context/ChangeItems";
-export default function Itemform({header,content,item}){    
+import { toast } from 'sonner';
+export default function Itemform({header,content,item}){   
     const {setOpen}=useContext(Modback);
     const [error,setError]=useState("");
     const [categories,setCategories]=useState([]);
@@ -42,6 +43,17 @@ export default function Itemform({header,content,item}){
                 headers:{
                         Authorization:"Bearer " + cookie.get("Bearer")
                 },
+            }).then(()=>{
+                toast.success('تم التعديل بنجاح', {
+                duration: 5000,
+                 style: {
+                    background: 'green', 
+                    color: 'white',     
+                    padding: '12px 20px',
+                    borderRadius: '8px',
+                    fontWeight: 'bold',
+                }
+            });
             });
         }
         else{
@@ -49,14 +61,27 @@ export default function Itemform({header,content,item}){
                 headers:{
                         Authorization:"Bearer " + cookie.get("Bearer")
                 },
+            }).then(()=>{
+                toast.success('تمت الاضافة بنجاح', {
+                duration: 5000,
+                 style: {
+                    background: 'green', 
+                    color: 'white',     
+                    padding: '12px 20px',
+                    borderRadius: '8px',
+                    fontWeight: 'bold',
+                }
+            });
+
             });
         }
+        
         setOpen(false);
         setChange((pre)=>!pre)
         navigate("/dashboard/items");
         } catch (err) {
             console.log(err);
-            setError(err.response.data.message)
+            // setError(err.response.data.message)
         }
     }
 

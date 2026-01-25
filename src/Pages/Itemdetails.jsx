@@ -1,10 +1,10 @@
 import "../Css/Modal.css";
 
-export default function Itemdetails({details , setshowDetails }) {
+export default function Itemdetails({invoice , setshowDetails }) {
   const handlePrint = () => {
     window.print();
   };
-  console.log(details);
+  console.log(invoice);
   
   return (
     <div className="modal-backdrop print-area">
@@ -25,16 +25,13 @@ export default function Itemdetails({details , setshowDetails }) {
         <div className="d-flex infoDetails" style={{ justifyContent: "space-around" }}>
           <div>
             <h4>معلومات العميل</h4>
-                <p> الاسم: </p>
-                <p>الهاتف:</p>
-                <p>العنوان: </p>
+                <p> الاسم:{invoice.account_name} </p>
           </div>
 
           <div>
             <h4>معلومات الفاتورة</h4>
-            <p>رقم الفاتورة: </p>
-            <p>التاريخ:</p>
-            <p>الحالة: </p>
+            <p>رقم الفاتورة:{invoice.number} </p>
+            <p>التاريخ:{invoice.date}</p>
           </div>
         </div>
 
@@ -45,32 +42,27 @@ export default function Itemdetails({details , setshowDetails }) {
               <th>كود المادة</th>
               <th>اسم المادة</th>
               <th>الكمية</th>
-              <th>سعر الوحدة</th>
-              <th>الضريبة %</th>
-              <th>قيمة الضريبة</th>
+              <th> الوحدة</th>
               <th>المجموع</th>
             </tr>
           </thead>
           <tbody>
-            {/* {details.items.map((item, i) => (
+            {invoice.details.map((item, i) => (
               <tr key={i}>
-                <td>{item.code}</td>
-                <td>{item.name}</td>
-                <td>{item.qty}</td>
-                <td>{item.price}</td>
-                <td>{item.tax}%</td>
-                <td>{item.taxValue}</td>
+                <td>{item.item_code}</td>
+                <td>{item.item_name}</td>
+                <td>{item.quantity}</td>
+                <td>{item.item_unit}</td>
                 <td>{item.total}</td>
               </tr>
-            ))} */}
+            ))}
           </tbody>
         </table>
 
         {/* TOTALS */}
         <div style={{ textAlign: "right", marginTop: "20px" }}>
-          <p>المجموع الفرعي: </p>
-          <p>إجمالي الضريبة: </p>
-          <h3>المجموع الكلي: </h3>
+        
+          <h3>المجموع الكلي:{invoice.total} </h3>
         </div>
       </div>
     </div>
