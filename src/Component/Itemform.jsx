@@ -33,7 +33,11 @@ export default function Itemform({header,content,item}){
         setForm({ ...form, [e.target.name]: e.target.value });
     }
     useEffect(()=>{
-        axios.get(`${baseUrl}/api/v1/categories`)
+        axios.get(`${baseUrl}/api/v1/categories`,{
+            headers:{
+                Authorization:`Bearer ${cookie.get("Bearer")}`
+            }
+        })
         .then((data)=>setCategories(data.data.data))
         .catch((err)=>console.log(err)
         )

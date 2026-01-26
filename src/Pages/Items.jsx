@@ -1,7 +1,9 @@
+import { useState } from "react";
 import Table from "../Component/Table";
 import Topbar from "../Component/Topbar";
 
 export default function Items(){
+    const [query, setQuery] = useState("");
     const header=[
         {
             key:"code",
@@ -33,8 +35,8 @@ export default function Items(){
     ];
     return(
     <>
-    <Topbar  header={"قائمة المواد"}/>
-    <Table main={"items"} content1={"اجمالي المواد:"} content2={""} header={header}></Table>
+    <Topbar setQuery={setQuery}  header={"قائمة المواد"}/>
+    <Table query={query} main={"items"} content1={"اجمالي المواد:"} content2={""} header={header}></Table>
     </>
 );
 }

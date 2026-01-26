@@ -1,6 +1,16 @@
 import React from "react";
 
-export default function Topbar ({header}){
+import { useState, useEffect } from "react";
+export default function Topbar ({header,setQuery}) {
+    
+    const [search, setSearch] = useState("");
+    useEffect(() => {
+    const timer = setTimeout(() => {
+        setQuery(search);
+    }, 1000); 
+    return () => clearTimeout(timer);
+    }, [search]);
+
     return (
     <div className="topbar">
         <div className="topbar-right">
@@ -13,6 +23,8 @@ export default function Topbar ({header}){
             type="text"
             placeholder="بحث"
             className="search-input"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
         />
     </div>
     </div>
