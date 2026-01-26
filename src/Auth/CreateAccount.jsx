@@ -25,32 +25,31 @@ export default function CreateAccount(){
     }
     async function submit(e) {
         e.preventDefault();
-        setload(true);
         try {
-            const parsedData = {...form};
-            const result = itemBaseSchema.safeParse(parsedData);
+            const result = itemBaseSchema.safeParse(form);
             if (!result.success) {
-                console.log(result.error.flatten());
-                setErrors(result.error.flatten());
+                console.log(result.error.format());
+                setErrors(result.error.format());
                 return; 
             }
-            await createAccountApi(form);
-            toast.success('تمت اضافة الحساب بنجاح', {
-                    duration: 5000,
-                    style: {
-                        background: 'green', 
-                        color: 'white',     
-                        padding: '12px 20px',
-                        borderRadius: '8px',
-                        fontWeight: 'bold',
-                    }
-                });
-            setload(false);
-            navigate("/dashboard/items");
-        } catch (err) {
-            setload(false);
-            seterr(err.response.data.message);
-        }
+        setload(true);
+        await createAccountApi(form);
+        toast.success('تمت اضافة الحساب بنجاح', {
+                duration: 5000,
+                style: {
+                    background: 'green', 
+                    color: 'white',     
+                    padding: '12px 20px',
+                    borderRadius: '8px',
+                    fontWeight: 'bold',
+                }
+            });
+        setload(false);
+        navigate("/dashboard/items");
+    } catch (err) {
+        setload(false);
+        seterr(err.response.data.message);
+    }
     }
   return (
             <form className="form-box" onSubmit={submit}>
@@ -61,7 +60,6 @@ export default function CreateAccount(){
                 <input
                     name="code"
                     type="text"
-                    required
                     placeholder="ادخل الكود"
                     onChange={handleform}
                     ></input>
@@ -77,7 +75,6 @@ export default function CreateAccount(){
                 <input
                     name="name"
                     type="name"
-                    required
                     placeholder="ادخل الاسم"
                     onChange={handleform}
                 ></input>

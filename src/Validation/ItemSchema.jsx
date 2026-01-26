@@ -2,7 +2,7 @@ import { z } from "zod";
 import { itemBaseSchema } from "./ItemBaseSchema";
 export const itemSchema = itemBaseSchema.extend({
  
-  category_id: z.string().min(1, "يجب اختيار الفئة"),
+  category_id: z.number().min(1, "يجب اختيار الفئة"),
 
   unit_name: z.string().min(1, "اسم الوحدة مطلوب"),
 

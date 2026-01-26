@@ -43,6 +43,7 @@ export default function Itemform({header,content,item}){
         e.preventDefault();
         const parsedData = {
             ...form,
+            category_id: Number(form.category_id),
             quantity_in: Number(form.quantity_in),
             quantity_low: Number(form.quantity_low),
             sell_price: Number(form.sell_price),
@@ -135,7 +136,7 @@ export default function Itemform({header,content,item}){
                         </div>
                         <div>
                             <label>الفئة</label>
-                            <select style={{borderRadius:"12px",padding:"10px"}} value={form.category_id} name="category_id" onChange={handleform}>
+                            <select style={{borderRadius:"12px",padding:"10px",marginBlock:"5px"}} value={form.category_id} name="category_id" onChange={handleform}>
                                 <option value={""} disabled>اختر الفئة</option>
                                 {showCategories}
                             </select>
