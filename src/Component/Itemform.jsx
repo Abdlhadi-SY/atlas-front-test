@@ -112,11 +112,11 @@ export default function Itemform({header,content,item}){
                                 placeholder="ادخل كود المادة"
                                 onChange={handleform}
                                 ></input>
-                                {errors.code?._errors[0] && (
-                                <small style={{ color: "red" }}>
-                                    {errors.code._errors[0]}
+                                {
+                                <small className="error-zod">
+                                    {errors.code?._errors[0]}
                                 </small>
-                                )}
+                                }
                         </div>
                         <div>
                             <label>اسم المادة</label>
@@ -127,11 +127,11 @@ export default function Itemform({header,content,item}){
                                 placeholder="ادخل اسم المادة"
                                 onChange={handleform}
                                 ></input>
-                                 {errors.name?._errors[0] && (
-                                <small style={{ color: "red" }}>
-                                    {errors.name._errors[0]}
+                                 {
+                                <small className="error-zod">
+                                    {errors.name?._errors[0]}
                                 </small>
-                                )}
+                                }
                         </div>
                         <div>
                             <label>الفئة</label>
@@ -139,11 +139,11 @@ export default function Itemform({header,content,item}){
                                 <option value={""} disabled>اختر الفئة</option>
                                 {showCategories}
                             </select>
-                            {errors.category_id?._errors[0] && (
-                                <small style={{ color: "red" }}>
-                                    {errors.category_id._errors[0]}
+                            {
+                                <small className="error-zod">
+                                    {errors.category_id?._errors[0]}
                                 </small>
-                            )}
+                            }
                             
                         </div>
                         <div>
@@ -155,11 +155,11 @@ export default function Itemform({header,content,item}){
                                 placeholder="ادخل اسم الوحدة"
                                 onChange={handleform}
                                 ></input>
-                                 {errors.unit_name?._errors[0] && (
-                                <small style={{ color: "red" }}>
-                                    {errors.unit_name._errors[0]}
+                                 {
+                                <small className="error-zod">
+                                    {errors.unit_name?._errors[0]}
                                 </small>
-                                )}
+                                }
                         </div>
                         <div>
                             <label>الكمية</label>
@@ -169,11 +169,11 @@ export default function Itemform({header,content,item}){
                                 type="number"
                                 onChange={handleform}
                                 ></input>
-                                 {errors.quantity_in?._errors[0] && (
-                                <small style={{ color: "red" }}>
-                                    {errors.quantity_in._errors[0]}
+                                 {
+                                <small className="error-zod">
+                                    {errors.quantity_in?._errors[0]}
                                 </small>
-                                )}
+                                }
                         </div>
                         <div>
                             <label>الحد الادنى للكمية</label>
@@ -183,11 +183,11 @@ export default function Itemform({header,content,item}){
                                 type="number"
                                 onChange={handleform}
                                 ></input>
-                                 {errors.quantity_low?._errors[0] && (
-                                <small style={{ color: "red" }}>
-                                    {errors.quantity_low._errors[0]}
+                                 {
+                                <small className="error-zod">
+                                    {errors.quantity_low?._errors[0]}
                                 </small>
-                                )}
+                                }
                         </div>
                         <div>
                             <label>سعر المبيع</label>
@@ -197,11 +197,11 @@ export default function Itemform({header,content,item}){
                                 type="number"
                                 onChange={handleform}
                                 ></input>
-                                 {errors.sell_price?._errors[0] && (
-                                <small style={{ color: "red" }}>
-                                    {errors.sell_price._errors[0]}
+                                 {
+                                <small className="error-zod">
+                                    {errors.sell_price?._errors[0]}
                                 </small>
-                                )}
+                                }
                         </div>
                         <div>
                             <label>سعر الشراء</label>
@@ -211,11 +211,11 @@ export default function Itemform({header,content,item}){
                                 type="number"
                                 onChange={handleform}
                                 ></input>
-                                 {errors.cost_price?._errors[0] && (
-                                <small style={{ color: "red" }}>
-                                    {errors.cost_price._errors[0]}
+                                 {
+                                <small className="error-zod">
+                                    {errors.cost_price?._errors[0]}
                                 </small>
-                                )}
+                                }
                         </div>
                     </form>
                     <div className="d-flex" style={{marginBlock:"15px"}}>

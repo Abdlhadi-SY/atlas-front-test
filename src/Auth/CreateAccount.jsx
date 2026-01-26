@@ -8,7 +8,9 @@ import { baseUrl } from "../Variables";
 import "../Css/Form.css"
 import { toast } from "sonner";
 import { createAccountApi } from "../API/accountsApi";
+import { itemBaseSchema } from "../Validation/ItemBaseSchema";
 export default function CreateAccount(){
+    const [errors, setErrors] = useState({});
     const [form, setform] = useState({
             code: "",
             name: "",
@@ -25,6 +27,13 @@ export default function CreateAccount(){
         e.preventDefault();
         setload(true);
         try {
+            const parsedData = {...form};
+            const result = itemBaseSchema.safeParse(parsedData);
+            if (!result.success) {
+                console.log(result.error.flatten());
+                setErrors(result.error.flatten());
+                return; 
+            }
             await createAccountApi(form);
             toast.success('تمت اضافة الحساب بنجاح', {
                     duration: 5000,
@@ -56,6 +65,11 @@ export default function CreateAccount(){
                     placeholder="ادخل الكود"
                     onChange={handleform}
                     ></input>
+                    {
+                    <small className="error-zod">
+                        {errors.code?._errors[0]}
+                    </small>
+                    }
             </div>
 
             <div className="form-group">
@@ -67,6 +81,11 @@ export default function CreateAccount(){
                     placeholder="ادخل الاسم"
                     onChange={handleform}
                 ></input>
+                {
+                <small className="error-zod">
+                    {errors.name?._errors[0]}
+                </small>
+                }
             </div>
             <div className="form-group">
                 <label>نوع الحساب</label>

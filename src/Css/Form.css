@@ -29,7 +29,6 @@
     border-radius: 6px;
     font-size: 14px;
     outline: none;
-
 }
 
 /* button */
@@ -48,3 +47,4 @@
 .form-button:hover {
     background: #0056b3;
 }
+

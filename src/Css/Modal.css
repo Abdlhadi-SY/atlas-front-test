@@ -64,3 +64,8 @@
     display: none !important;
   }
 }
+
+.error-zod {
+    color: red;
+    min-height: 14px;
+}
