@@ -26,3 +26,11 @@ export const updateItemApi = async (id, data) => {
 export const deleteItemApi = async (id) => {
   await apiService.delete(`/api/v1/items/${id}`);
 };
+
+
+export const searchItemsApi = async (main, data) => {
+  const response = await apiService.get(`/api/v1/${main}-search/`, {
+    params: data,
+  });
+  return response.data;
+};

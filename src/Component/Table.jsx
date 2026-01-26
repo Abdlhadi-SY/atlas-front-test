@@ -12,9 +12,9 @@ import Cookies from "universal-cookie";
 import { ChangeItems } from "../Context/ChangeItems";
 import Itemdetails from "../Pages/Itemdetails";
 import { toast } from "sonner";
-import { deleteItemApi, getItemsApi } from "../API/ItemsApi";
+import { deleteItemApi, getItemsApi, searchItemsApi } from "../API/ItemsApi";
 
-export default function Table ({main,header,content1,content2}) {
+export default function Table ({query,main,header,content1,content2}) {
     const {open,setOpen}=useContext(Modback);
     const [idUpdate,setidUpdate]=useState(0);
     const [items, setItems] = useState([]);
@@ -37,7 +37,17 @@ export default function Table ({main,header,content1,content2}) {
 
     fetchItems();
     },[change])
-
+    useEffect(() => {
+      const filteredItems = async () => {
+        try {
+          const data = await searchItemsApi(main, {q: query}); 
+          setItems(data.data);
+        } catch (err) {
+          console.log("Error fetching items:", err);
+        }
+      };
+      filteredItems();
+    }, [query]);
 
     const totalPrice = useMemo(() => {
       return items.reduce((sum, item) => {
