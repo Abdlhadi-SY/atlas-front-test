@@ -26,7 +26,11 @@ export default function CreateAccount(){
     async function submit(e) {
         e.preventDefault();
         try {
-            const result = itemBaseSchema.safeParse(form);
+            const parsedData = {
+                ...form,
+                type: Number(form.type),
+            };
+            const result = itemBaseSchema.safeParse(parsedData);
             if (!result.success) {
                 console.log(result.error.format());
                 setErrors(result.error.format());
@@ -90,7 +94,12 @@ export default function CreateAccount(){
                     <option value={""} disabled>اختر نوع الحساب</option>
                     <option value={"supplier"} >مورد</option>
                     <option value={"client"} >عميل</option>
-                </select>            
+                </select> 
+                {
+                <small className="error-zod">
+                    {errors.type?._errors[0]}
+                </small>
+                }           
             </div>
 
             {load?<Loading border={"6px solid #2563eb"}/>:<button type="submit" className="form-button">اضافة حساب</button>}
