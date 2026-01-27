@@ -1,14 +1,11 @@
-
 import { useContext, useState } from "react";
-import axios from "axios";
 import Loading from "../Component/Loading";
 import Cookies from "universal-cookie";
 import { useNavigate } from "react-router-dom";
-import { baseUrl } from "../Variables";
 import "../Css/Form.css"
 import { toast } from "sonner";
 import { createAccountApi } from "../API/accountsApi";
-import { itemBaseSchema } from "../Validation/ItemBaseSchema";
+import { accountSchema } from "../Validation/AccountSchema";
 export default function CreateAccount(){
     const [errors, setErrors] = useState({});
     const [form, setform] = useState({
@@ -30,7 +27,7 @@ export default function CreateAccount(){
                 ...form,
                 type: Number(form.type),
             };
-            const result = itemBaseSchema.safeParse(parsedData);
+            const result = accountSchema.safeParse(parsedData);
             if (!result.success) {
                 console.log(result.error.format());
                 setErrors(result.error.format());

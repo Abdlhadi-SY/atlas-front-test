@@ -12,7 +12,7 @@ createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <ItemContext>
           <ChangeItemContext>
-            <Toaster position="bottom-right" richColors closeButton />
+            <Toaster position="bottom-right" richColors/>
                 <App />
             <Toaster/>
           </ChangeItemContext>

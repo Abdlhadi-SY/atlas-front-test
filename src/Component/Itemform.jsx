@@ -22,7 +22,6 @@ export default function Itemform({header,content,item}){
         name : item.name,
         category_id : item.category_id,
         unit_name : item.unit.name??"",
-        quantity_in : item.quantity_in,
         quantity_low : item.quantity_low,
         cost_price : item.cost_price,
         sell_price : item.sell_price,
@@ -163,20 +162,6 @@ export default function Itemform({header,content,item}){
                                  {
                                 <small className="error-zod">
                                     {errors.unit_name?._errors[0]}
-                                </small>
-                                }
-                        </div>
-                        <div>
-                            <label>الكمية</label>
-                            <input
-                                value={form.quantity_in}
-                                name="quantity_in"
-                                type="number"
-                                onChange={handleform}
-                                ></input>
-                                 {
-                                <small className="error-zod">
-                                    {errors.quantity_in?._errors[0]}
                                 </small>
                                 }
                         </div>

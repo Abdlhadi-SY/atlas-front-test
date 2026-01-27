@@ -36,7 +36,7 @@ export default function Table ({query,main,header,content1,content2}) {
     fetchItems();
     },[change])
     useEffect(() => {
-      const filteredItems = async () => {
+      const filteredItems = async () => {        
         try {
           const data = await searchItemsApi(main, {q: query}); 
           setItems(data.data);

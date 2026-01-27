@@ -18,7 +18,19 @@ export default function Items(){
         },
         {
             key:"quantity_now",
-            value:"الكمية"
+            value:"الكمية الحالية"
+        },
+        {
+            key:"quantity_in",
+            value:"الكمية الواردة"
+        },
+        {
+            key:"quantity_low",
+            value:"الكمية الادنى"
+        },
+        {
+            key:"quantity_out",
+            value:"الكمية الصادرة"
         },
         {
             key:"unit",

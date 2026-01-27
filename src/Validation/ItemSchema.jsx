@@ -6,8 +6,6 @@ export const itemSchema = itemBaseSchema.extend({
 
   unit_name: z.string().min(1, "اسم الوحدة مطلوب"),
 
-  quantity_in: z.number( "الكمية يجب أن تكون رقم" ).min(1, "الحد الأدنى يجب ان يكون اكبر من صفر"),
-
   quantity_low: z.number( "الحد الأدنى يجب أن يكون رقم" ).min(1, " الحد الأدنى يجب ان يكون اكبر من صفر"),
 
   sell_price: z.number( "سعر المبيع يجب أن يكون رقم" ).positive("سعر المبيع يجب أن يكون أكبر من صفر"),
