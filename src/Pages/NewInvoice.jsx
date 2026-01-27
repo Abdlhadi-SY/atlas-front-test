@@ -9,7 +9,7 @@ import { useState } from "react";
 export default function NewInvoice() {
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [showCustomerSelector, setShowCustomerSelector] = useState(false);
-  const [type, setType] = useState("");
+  const [type, setType] = useState("sell");
 
   const [discount, setDiscount] = useState(0);
   const [generalNotes, setGeneralNotes] = useState("");
@@ -256,7 +256,7 @@ export default function NewInvoice() {
             <div className="form-group">
               <label>نوع الفاتورة</label>
               <select value={type} onChange={(e) => setType(e.target.value)}>
-                <option value="payment">دفع</option>
+                <option value="sell">بيع</option>
                 <option value="purchase">شراء</option>
               </select>
             </div>
