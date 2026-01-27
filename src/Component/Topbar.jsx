@@ -1,7 +1,7 @@
 import React from "react";
 
 import { useState, useEffect } from "react";
-export default function Topbar ({header,setQuery}) {
+export default function Topbar ({header,setQuery,flag}) {
     
     const [search, setSearch] = useState("");
     useEffect(() => {
@@ -19,13 +19,13 @@ export default function Topbar ({header,setQuery}) {
     <div className="topbar-left">
          <span className="icon">🔔</span>
          <span className="icon">👤</span>
-        <input
+        {flag && <input
             type="text"
             placeholder="بحث"
             className="search-input"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-        />
+        />}
     </div>
     </div>
     );

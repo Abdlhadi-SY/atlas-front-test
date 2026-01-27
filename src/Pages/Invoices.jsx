@@ -24,7 +24,7 @@ export default function Invoices(){
     ];
     return(
         <>
-        <Topbar setQuery={setQuery} header={"قائمة الفواتير"} />
+        <Topbar flag={true} setQuery={setQuery} header={"قائمة الفواتير"} />
         <Table query={query} main={"invoices"} content1={"إجمالي الفواتير:"} content2={"المجموع الكلي:"} header={header}></Table>
         </>
     );

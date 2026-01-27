@@ -4,7 +4,6 @@ export default function Invoicedetails({invoice , setshowDetails }) {
   const handlePrint = () => {
     window.print();
   };
-  console.log(invoice);
   
   return (
     <div className="modal-backdrop print-area">

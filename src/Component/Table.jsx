@@ -188,7 +188,7 @@ export default function Table ({query,main,header,content1,content2}) {
             <tbody>
               {items.length === 0 ? (
                 <tr>
-                  <td colSpan="6" className="empty">
+                  <td colSpan="12" className="empty">
                     لا توجد بيانات للعرض
                   </td>
                 </tr>
@@ -234,7 +234,6 @@ export default function Table ({query,main,header,content1,content2}) {
             </tbody>
           </table>
         </div>
-        {open}
         {open&&idUpdate==0&&<Additem></Additem>}
         {open&&idUpdate>0&&<Updateitem item={item}></Updateitem>}
         {showDetails && <Invoicedetails setshowDetails={()=>setShowDetails(false)} invoice={item}></Invoicedetails>}
