@@ -6,13 +6,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faEdit } from "@fortawesome/free-regular-svg-icons";
 import Updateitem from "../Pages/Updateitem";
-import axios from "axios";
-import { baseUrl } from "../Variables";
 import Cookies from "universal-cookie";
 import { ChangeItems } from "../Context/ChangeItems";
-import Itemdetails from "../Pages/Itemdetails";
 import { toast } from "sonner";
 import { deleteItemApi, getItemsApi, searchItemsApi } from "../API/ItemsApi";
+import Invoicedetails from "../Pages/Invoicedetails";
 
 export default function Table ({query,main,header,content1,content2}) {
     const {open,setOpen}=useContext(Modback);
@@ -58,25 +56,52 @@ export default function Table ({query,main,header,content1,content2}) {
     const [sortColumn, setSortColumn] = useState(null);
     const [sortDirection, setSortDirection] = useState("asc");
     
+
+    const parseDate = (dateStr) => {
+        if (!dateStr) return 0;
+        const [day, month, year] = dateStr.split("-").map(Number);
+        return new Date(year, month - 1, day).getTime();
+      };
+
     const handleSort = (column) => {
       let direction = "asc";
-      if (sortColumn === column && sortDirection === "asc") direction = "desc";
+      if (sortColumn === column && sortDirection === "asc") {
+        direction = "desc";
+      }
+
       const sortedData = [...items].sort((a, b) => {
+        console.log(column);
+        
         let aVal = a[column];
         let bVal = b[column];
+        console.log(aVal,bVal);
+        
+        if (column === "date") {
+            const aTime = parseDate(aVal);
+            const bTime = parseDate(bVal);
+            return direction === "asc" ? aTime - bTime : bTime - aTime;
+          }
+        if(typeof aVal=="object")
+          aVal=aVal?.name;
+        if(typeof bVal=="object")
+          bVal=bVal?.name;
 
-        const aNum = parseFloat(aVal);
-        const bNum = parseFloat(bVal);
+        console.log(typeof aVal,typeof bVal);
+        
+        const aStr = (aVal ?? "").toString().trim();
+        const bStr = (bVal ?? "").toString().trim();
+
+        
+        const aNum = parseFloat(aStr);
+        const bNum = parseFloat(bStr);
 
         if (!isNaN(aNum) && !isNaN(bNum)) {
           return direction === "asc" ? aNum - bNum : bNum - aNum;
         }
 
-        aVal = aVal?.toString().toLowerCase();
-        bVal = bVal?.toString().toLowerCase();
-        if (aVal < bVal) return direction === "asc" ? -1 : 1;
-        if (aVal > bVal) return direction === "asc" ? 1 : -1;
-        return 0;
+        return direction === "asc"
+          ? aStr.localeCompare(bStr, "ar", { sensitivity: "base" })
+          : bStr.localeCompare(aStr, "ar", { sensitivity: "base" });
       });
 
       setSortColumn(column);
@@ -208,7 +233,7 @@ export default function Table ({query,main,header,content1,content2}) {
         {open}
         {open&&idUpdate==0&&<Additem></Additem>}
         {open&&idUpdate>0&&<Updateitem item={item}></Updateitem>}
-        {showDetails && <Itemdetails setshowDetails={()=>setShowDetails(false)} invoice={item}></Itemdetails>}
+        {showDetails && <Invoicedetails setshowDetails={()=>setShowDetails(false)} invoice={item}></Invoicedetails>}
         {deleteModal.open && (
         <div className="modal-backdrop">
             <div className="modal-box">

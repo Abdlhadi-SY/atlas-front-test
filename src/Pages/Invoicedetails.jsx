@@ -1,6 +1,6 @@
 import "../Css/Modal.css";
 
-export default function Itemdetails({invoice , setshowDetails }) {
+export default function Invoicedetails({invoice , setshowDetails }) {
   const handlePrint = () => {
     window.print();
   };
@@ -17,7 +17,7 @@ export default function Itemdetails({invoice , setshowDetails }) {
 
         {/* TITLE */}
         <div style={{ textAlign: "center", margin: "20px 0" }}>
-          <h1>فاتورة مبيعات</h1>
+          <h1>{invoice.type === "sell" ? "فاتورة مبيعات" : "فاتورة شراء"}</h1>
           <p>نظام إدارة المستودعات</p>
         </div>
 
