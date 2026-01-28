@@ -11,7 +11,8 @@ export default function Items(){
         },
         {
             key:"name",
-            value:"اسم المادة"},
+            value:"اسم المادة"
+        },
         {
             key:"category",
             value:"الفئة"
@@ -47,7 +48,7 @@ export default function Items(){
     ];
     return(
     <>
-    <Topbar setQuery={setQuery}  header={"قائمة المواد"}/>
+    <Topbar flag={true} setQuery={setQuery}  header={"قائمة المواد"}/>
     <Table query={query} main={"items"} content1={"اجمالي المواد:"} content2={""} header={header}></Table>
     </>
 );

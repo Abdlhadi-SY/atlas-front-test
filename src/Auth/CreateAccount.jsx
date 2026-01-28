@@ -23,11 +23,7 @@ export default function CreateAccount(){
     async function submit(e) {
         e.preventDefault();
         try {
-            const parsedData = {
-                ...form,
-                type: Number(form.type),
-            };
-            const result = accountSchema.safeParse(parsedData);
+            const result = accountSchema.safeParse(form);
             if (!result.success) {
                 console.log(result.error.format());
                 setErrors(result.error.format());

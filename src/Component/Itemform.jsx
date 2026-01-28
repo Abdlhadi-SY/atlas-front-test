@@ -13,8 +13,8 @@ export default function Itemform({header,content,item}){
     const {setOpen}=useContext(Modback);
     const [error,setError]=useState("");
     const [errors, setErrors] = useState({});
-
     const [categories,setCategories]=useState([]);
+    const [units,setUnits]=useState([]);
     const cookie=new Cookies();
     const {setChange}=useContext(ChangeItems)
     const [form,setForm]=useState({
@@ -41,7 +41,20 @@ export default function Itemform({header,content,item}){
         .catch((err)=>console.log(err)
         )
     },[])
+    useEffect(()=>{
+        axios.get(`${baseUrl}/api/v1/units`,{
+            headers:{
+                Authorization:`Bearer ${cookie.get("Bearer")}`
+            }
+        })
+        .then((data)=>setUnits(data.data.data))
+        .catch((err)=>console.log(err)
+        )
+    },[])
     const showCategories=categories.map((category,index)=><option key={index} value={category.id}>{category.name}</option>)
+    const showUnits=units.map((unit,index)=><option key={index} value={unit.name}>{unit.name}</option>)
+    console.log(showUnits);
+    
     async function submit(e) {
         e.preventDefault();
         const parsedData = {
@@ -152,18 +165,15 @@ export default function Itemform({header,content,item}){
                         </div>
                         <div>
                             <label>الوحدة</label>
-                            <input
-                                value={form.unit_name}
-                                name="unit_name"
-                                type="text"
-                                placeholder="ادخل اسم الوحدة"
-                                onChange={handleform}
-                                ></input>
-                                 {
-                                <small className="error-zod">
-                                    {errors.unit_name?._errors[0]}
-                                </small>
-                                }
+                            <input list="units" placeholder=" ادخل وحدة جديدة" value={form.unit_name} name="unit_name" onChange={handleform}/>
+                            <datalist id="units">
+                                {showUnits}
+                            </datalist>
+                            {
+                            <small className="error-zod">
+                                {errors.unit_name?._errors[0]}
+                            </small>
+                            }
                         </div>
                         <div>
                             <label>الحد الادنى للكمية</label>

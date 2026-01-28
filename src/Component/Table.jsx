@@ -11,6 +11,7 @@ import { ChangeItems } from "../Context/ChangeItems";
 import { toast } from "sonner";
 import { deleteItemApi, getItemsApi, searchItemsApi } from "../API/ItemsApi";
 import Invoicedetails from "../Pages/Invoicedetails";
+import { deleteInvoiceApi } from "../API/InvoicesApi";
 
 export default function Table ({query,main,header,content1,content2}) {
     const {open,setOpen}=useContext(Modback);
@@ -124,7 +125,10 @@ export default function Table ({query,main,header,content1,content2}) {
 
     async function confirmDelete() {
       try {
-          await deleteItemApi(deleteModal.id);
+          if(main==="items")
+            await deleteItemApi(deleteModal.id);
+          else
+            await deleteInvoiceApi(deleteModal.id);
           setChange((pre)=>!pre);
           toast.success('تم الحذف بنجاح', {
                 duration: 5000,
@@ -184,7 +188,7 @@ export default function Table ({query,main,header,content1,content2}) {
             <tbody>
               {items.length === 0 ? (
                 <tr>
-                  <td colSpan="6" className="empty">
+                  <td colSpan="12" className="empty">
                     لا توجد بيانات للعرض
                   </td>
                 </tr>
@@ -230,7 +234,6 @@ export default function Table ({query,main,header,content1,content2}) {
             </tbody>
           </table>
         </div>
-        {open}
         {open&&idUpdate==0&&<Additem></Additem>}
         {open&&idUpdate>0&&<Updateitem item={item}></Updateitem>}
         {showDetails && <Invoicedetails setshowDetails={()=>setShowDetails(false)} invoice={item}></Invoicedetails>}
