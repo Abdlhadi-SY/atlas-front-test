@@ -5,6 +5,7 @@ import { getAccountsApi } from "../API/accountsApi";
 import { getItemByCodeApi } from "../API/ItemsApi";
 import { createInvoiceApi } from "../API/InvoicesApi";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export default function NewInvoice() {
   const [selectedCustomer, setSelectedCustomer] = useState(null);
@@ -21,7 +22,7 @@ export default function NewInvoice() {
       code: "",
       name: "",
       qty: 1,
-      unitPrice: 0,
+      provided_price: 0,
       note: "",
       error: "",
     },
@@ -34,7 +35,7 @@ export default function NewInvoice() {
         code: "",
         name: "",
         qty: 1,
-        unitPrice: 0,
+        provided_price: 0,
         note: "",
         error: "",
       },
@@ -70,7 +71,7 @@ export default function NewInvoice() {
           id: data.data.id,
           code: data.data.code,
           name: data.data.name,
-          unitPrice: data.data.cost_price,
+          provided_price: type === "sell" ? data.data.sell_price : data.data.cost_price,
           error: "",
         };
         return copy;
@@ -100,7 +101,7 @@ export default function NewInvoice() {
   const computeSubtotal = () => {
     return items.reduce((sum, it) => {
       const q = Number(it.qty) || 0;
-      const p = Number(it.unitPrice) || 0;
+      const p = Number(it.provided_price) || 0;
       return sum + q * p;
     }, 0);
   };
@@ -120,7 +121,7 @@ export default function NewInvoice() {
         code: it.code,
         name: it.name,
         quantity: Number(it.qty) || 0,
-        unitPrice: Number(it.unitPrice) || 0,
+        provided_price: Number(it.provided_price) || 0,
         note: it.note,
       })),
       discount: Number(discount) || 0,
@@ -133,28 +134,31 @@ export default function NewInvoice() {
     try {
       const data = await createInvoiceApi(payload);
       console.log("Invoice created:", data);
-      alert("تم حفظ الفاتورة بنجاح");
+      toast.success('تمت حفظ الفاتورة بنجاح', {
+                duration: 5000,
+                 style: {
+                    background: 'green', 
+                    color: 'white',     
+                    padding: '12px 20px',
+                    borderRadius: '8px',
+                    fontWeight: 'bold',
+                }
+            });
       // optional: reset form or navigate
     } catch (err) {
       console.error(err);
-      alert("حدث خطأ أثناء إرسال الفاتورة");
+      toast.error('حدث خطأ أثناء إرسال الفاتورة', {
+                duration: 5000,
+                 style: {
+                    background: 'red', 
+                    color: 'white',     
+                    padding: '12px 20px',
+                    borderRadius: '8px',
+                    fontWeight: 'bold',
+                }
+            });
     }
 
-    
-    // try {
-    //   const res = await fetch("/api/invoices", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(payload),
-    //   });
-    //   if (!res.ok) throw new Error("Network response was not ok");
-    //   const data = await res.json();
-    //   alert("تم حفظ الفاتورة بنجاح");
-    //   // optional: reset form or navigate
-    // } catch (err) {
-    //   console.error(err);
-    //   alert("حدث خطأ أثناء إرسال الفاتورة");
-    // }
   };
 
   return (
@@ -289,7 +293,7 @@ export default function NewInvoice() {
               <tbody>
                 {items.map((it, index) => {
                   const lineTotal =
-                    (Number(it.qty) || 0) * (Number(it.unitPrice) || 0);
+                    (Number(it.qty) || 0) * (Number(it.provided_price) || 0);
 
                   return (
                     <tr key={index}>
@@ -339,9 +343,9 @@ export default function NewInvoice() {
                       <td>
                         <input
                           type="number"
-                          value={it.unitPrice}
+                          value={it.provided_price}
                           onChange={(e) =>
-                            handleItemChange(index, "unitPrice", e.target.value)
+                            handleItemChange(index, "provided_price", e.target.value)
                           }
                         />
                       </td>
