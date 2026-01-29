@@ -53,7 +53,6 @@ export default function Itemform({header,content,item}){
     },[])
     const showCategories=categories.map((category,index)=><option key={index} value={category.id}>{category.name}</option>)
     const showUnits=units.map((unit,index)=><option key={index} value={unit.name}>{unit.name}</option>)
-    console.log(showUnits);
     
     async function submit(e) {
         e.preventDefault();

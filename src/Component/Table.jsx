@@ -236,7 +236,7 @@ export default function Table ({query,main,header,content1,content2}) {
         </div>
         {open&&idUpdate==0&&<Additem></Additem>}
         {open&&idUpdate>0&&<Updateitem item={item}></Updateitem>}
-        {showDetails && <Invoicedetails setshowDetails={()=>setShowDetails(false)} invoice={item}></Invoicedetails>}
+        {showDetails && <Invoicedetails  setshowDetails={()=>setShowDetails(false)} invoice={item}></Invoicedetails>}
         {deleteModal.open && (
         <div className="modal-backdrop">
             <div className="modal-box">
